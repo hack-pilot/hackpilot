@@ -4,8 +4,8 @@ from agno.models.anthropic import Claude
 from tools.github_tools import GitHubAppAuth, GitHubRepoTools
 
 github_auth = GitHubAppAuth(
-    app_id="your-app-id",
-    private_key_path="./hackpilot.pem",
+    app_id="3111731",
+    private_key_path=".//Users/lavanya/hackpilot/hackpilot.pem",
 )
 
 

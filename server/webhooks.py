@@ -5,10 +5,10 @@ from tools.github_tools import GitHubAppAuth, GitHubRepoTools
 
 app = FastAPI()
 
-WEBHOOK_SECRET = "your-webhook-secret"
+WEBHOOK_SECRET = "hackpilot_secret_123"
 github_auth = GitHubAppAuth(
-    app_id="your-app-id",
-    private_key_path="./hackpilot.pem",
+    app_id="3111731",
+    private_key_path=".//Users/lavanya/hackpilot/hackpilot.pem",
 )
 
 tracked_repos: dict[str, dict] = {}
