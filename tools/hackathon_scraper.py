@@ -1,4 +1,35 @@
+import os
 import requests
+from typing import Optional
+
+
+def tinyfish_scrape(url: str, goal: str = "Extract hackathon name, deadline, themes, and registration link as JSON.") -> Optional[dict]:
+    """
+    Scrape a website using TinyFish's AI-agent-powered infrastructure.
+    Treat any website as a programmable API.
+    """
+    api_key = os.getenv("TINYFISH_API_KEY")
+    if not api_key:
+        print("⚠️ TINYFISH_API_KEY not found in environment.")
+        return None
+
+    api_url = "https://agent.tinyfish.ai/v1/automation/run"
+    headers = {
+        "X-API-Key": api_key,
+        "Content-Type": "application/json"
+    }
+    payload = {
+        "url": url,
+        "goal": goal
+    }
+
+    try:
+        resp = requests.post(api_url, headers=headers, json=payload, timeout=60)
+        resp.raise_for_status()
+        return resp.json()
+    except Exception as e:
+        print(f"TinyFish error: {e}")
+        return None
 
 
 def fetch_devfolio_api() -> list[dict]:
