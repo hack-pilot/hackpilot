@@ -2,3 +2,4 @@ hackpilot.pem
 .env
 __pycache__/
 *.pyc
+.env

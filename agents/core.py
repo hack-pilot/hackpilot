@@ -5,7 +5,7 @@ from tools.github_tools import GitHubAppAuth, GitHubRepoTools
 
 github_auth = GitHubAppAuth(
     app_id="3111731",
-    private_key_path=".//Users/lavanya/hackpilot/hackpilot.pem",
+    private_key_path="/Users/lavanya/hackpilot/hackpilot.pem",
 )
 
 

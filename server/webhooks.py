@@ -1,14 +1,18 @@
 import hmac
 import hashlib
+import os
+from dotenv import load_dotenv
 from fastapi import FastAPI, Request, HTTPException
 from tools.github_tools import GitHubAppAuth, GitHubRepoTools
 
+load_dotenv()
+
 app = FastAPI()
 
-WEBHOOK_SECRET = "hackpilot_secret_123"
+WEBHOOK_SECRET = os.getenv("GITHUB_WEBHOOK_SECRET")
 github_auth = GitHubAppAuth(
-    app_id="3111731",
-    private_key_path=".//Users/lavanya/hackpilot/hackpilot.pem",
+    app_id=os.getenv("GITHUB_APP_ID"),
+    private_key_path=os.getenv("GITHUB_PRIVATE_KEY_PATH"),
 )
 
 tracked_repos: dict[str, dict] = {}
