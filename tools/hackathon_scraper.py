@@ -1,14 +1,9 @@
 import requests
-from datetime import datetime
 
 
 def fetch_devfolio_api() -> list[dict]:
-    """Fetch hackathons from Devfolio's public GraphQL API"""
     url = "https://api.devfolio.co/api/hackathons"
-    headers = {
-        "User-Agent": "Mozilla/5.0",
-        "Accept": "application/json",
-    }
+    headers = {"User-Agent": "Mozilla/5.0", "Accept": "application/json"}
     try:
         resp = requests.get(url, headers=headers, timeout=10)
         data = resp.json()
@@ -28,10 +23,6 @@ def fetch_devfolio_api() -> list[dict]:
 
 
 def get_manual_hackathons() -> list[dict]:
-    """
-    Manually curated list of recurring hackathon sources.
-    Update this list regularly or replace with a live source.
-    """
     return [
         {
             "name": "Google Solution Challenge 2026",
@@ -82,7 +73,6 @@ def get_all_hackathons(category: str = "") -> list[dict]:
 
     all_hackathons = devfolio + manual
 
-    # filter by category if provided
     if category:
         all_hackathons = [
             h for h in all_hackathons
@@ -90,7 +80,7 @@ def get_all_hackathons(category: str = "") -> list[dict]:
             or category.lower() in h.get("name", "").lower()
         ]
 
-    print(f"\n✅ Total: {len(all_hackathons)} hackathons found")
+    print(f"\n✅ Matching '{category}': {len(all_hackathons)} hackathons" if category else f"\n✅ Total: {len(all_hackathons)} hackathons found")
     return all_hackathons
 
 
