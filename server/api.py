@@ -2,13 +2,27 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from agents.monitor import load_deadlines, check_deadlines
+from agno.os import AgentOS
+from agno.db.sqlite import SqliteDb
+from agents.core import deadline_watchman, hackathon_scout
+from agents.monitor import load_deadlines
 from agents.matcher import match_project_to_hackathons
 from tools.hackathon_scraper import get_all_hackathons
 
-app = FastAPI()
+# Setup persistent DB for scheduler and agent runs
+db = SqliteDb(id="hackpilot-os", db_file="db/hackpilot_os.db")
+
+# Initialize AgentOS with scheduler enabled
+agent_os = AgentOS(
+    name="HackPilot OS",
+    agents=[deadline_watchman, hackathon_scout],
+    db=db,
+    scheduler=True,
+    scheduler_poll_interval=60, # Check schedules every minute
+)
+
+app = agent_os.get_app()
 
 # Allow Nuxt dashboard to call this API
 app.add_middleware(
@@ -80,7 +94,6 @@ def get_stats():
     """Return dashboard stats"""
     deadlines = load_deadlines()
     hackathons = get_all_hackathons()
-    upcoming = [d for d in deadlines if not d["deadline"].startswith("2026-03-1")]
     return {
         "tracked_projects": 1,
         "upcoming_deadlines": len(deadlines),

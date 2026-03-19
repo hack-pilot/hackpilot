@@ -1,0 +1,11 @@
+fastapi
+uvicorn
+agno[scheduler]
+anthropic
+httpx
+pyjwt
+requests
+pydantic
+psycopg[binary]
+sqlalchemy
+python-dotenv
